@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C7C52D7212BBE21001144E7 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C7C52D6212BBE21001144E7 /* TableViewCell.m */; };
 		1CF8E086212A7E2F00D97342 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8E085212A7E2F00D97342 /* AppDelegate.m */; };
 		1CF8E089212A7E2F00D97342 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8E088212A7E2F00D97342 /* ViewController.m */; };
 		1CF8E08C212A7E2F00D97342 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1CF8E08A212A7E2F00D97342 /* Main.storyboard */; };
@@ -17,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C7C52D5212BBE21001144E7 /* TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
+		1C7C52D6212BBE21001144E7 /* TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		1CF8E081212A7E2F00D97342 /* YZHKeyboardManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YZHKeyboardManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1CF8E084212A7E2F00D97342 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1CF8E085212A7E2F00D97342 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -75,6 +78,8 @@
 				1CF8E08F212A7E2F00D97342 /* LaunchScreen.storyboard */,
 				1CF8E092212A7E2F00D97342 /* Info.plist */,
 				1CF8E093212A7E2F00D97342 /* main.m */,
+				1C7C52D5212BBE21001144E7 /* TableViewCell.h */,
+				1C7C52D6212BBE21001144E7 /* TableViewCell.m */,
 			);
 			path = YZHKeyboardManagerDemo;
 			sourceTree = "<group>";
@@ -162,6 +167,7 @@
 				1CF8E089212A7E2F00D97342 /* ViewController.m in Sources */,
 				1CF8E094212A7E2F00D97342 /* main.m in Sources */,
 				1CF8E09F212A7F4500D97342 /* YZHKeyboardManager.m in Sources */,
+				1C7C52D7212BBE21001144E7 /* TableViewCell.m in Sources */,
 				1CF8E086212A7E2F00D97342 /* AppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,33 +9,6 @@
 #import "YZHKeyboardManager.h"
 #import <objc/runtime.h>
 
-
-/************************************************************
- *NSNotification (YZHKeyboard)
- ************************************************************/
-@interface NSNotification (YZHKeyboard)
-
-/* <#注释#> */
-@property (nonatomic, assign) BOOL keyboarHaveShow;
-
-@end
-
-@implementation NSNotification (YZHKeyboard)
-
--(void)setKeyboarHaveShow:(BOOL)keyboarHaveShow
-{
-    objc_setAssociatedObject(self, @selector(keyboarHaveShow), @(keyboarHaveShow), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
--(BOOL)keyboarHaveShow
-{
-    return [objc_getAssociatedObject(self, _cmd) boolValue];
-}
-
-@end
-
-
-
 /************************************************************
  *YZHKeyboardManager ()
  ************************************************************/
@@ -48,6 +21,9 @@
 
 /* <#注释#> */
 @property (nonatomic, strong) NSNotification *keyboardNotification;
+
+/* <#name#> */
+@property (nonatomic, assign) BOOL isKeyboardShowing;
 
 @end
 
@@ -136,64 +112,64 @@
     }
 }
 
--(BOOL)_doUpdateWithKeyboardFrame:(CGRect)keyboardFrame duration:(NSTimeInterval)duration isHide:(BOOL)isHide
+-(BOOL)_doUpdateWithKeyboardFrame:(CGRect)keyboardFrame duration:(NSTimeInterval)duration isShow:(BOOL)isShow
 {
     if (self.firstResponderView == nil) {
         return NO;
     }
-    
     if (self.willUpdateBlock) {
-        self.willUpdateBlock(self, self.keyboardNotification, !isHide);
+        self.willUpdateBlock(self, self.keyboardNotification, isShow);
     }
     
     CGRect firstResponderViewFrame = self.firstResponderView.frame;
     firstResponderViewFrame = [self.firstResponderView.superview convertRect:firstResponderViewFrame toView:[UIApplication sharedApplication].keyWindow];
     
-    void (^animateCompletionBlock)(BOOL finished) = ^(BOOL finished){
-//        if (isHide && self.didHideBlock) {
-//            self.didHideBlock(self);
-//        }
-
-//        if (isHide) {
-//            if (self.didHideBlock) {
-//                self.didHideBlock(self);
-//            }
-//        }
-//        else {
-//            if (self.didShowBlock) {
-//                self.didShowBlock(self);
-//            }
-//        }
-    };
+//    NSLog(@"firstResponderViewFrame=%@",NSStringFromCGRect(firstResponderViewFrame));
     
     CGFloat diffY = keyboardFrame.origin.y - CGRectGetMaxY(firstResponderViewFrame) - self.keyboardMinTopToResponder;
-//    NSLog(@"==========diffY=%f",diffY);
-    if (diffY > 0) {
-        if (isHide) {
-            [UIView animateWithDuration:duration animations:^{
-                self.relatedShiftView.transform = self.relatedShiftViewBeforeShowTransform;
-            } completion:animateCompletionBlock];
-        }
+    if (self.shiftBlock) {
+        self.shiftBlock(self, self.keyboardNotification, diffY, isShow);
         return YES;
     }
-    
-    CGFloat oldTranslationX = self.relatedShiftView.transform.tx;
-    CGFloat oldTranslationY = self.relatedShiftView.transform.ty;
-    CGFloat ty = oldTranslationY + diffY;
-    
-//    NSLog(@"============ty=%f,oldTranslationY=%f,thread=%@",ty,oldTranslationY,[NSThread currentThread]);
-    
-    [UIView animateWithDuration:duration animations:^{
-        self.relatedShiftView.transform = CGAffineTransformMakeTranslation(oldTranslationX, ty);
-    } completion:animateCompletionBlock];
-    
-    return YES;
+    else {
+        void (^animateCompletionBlock)(BOOL finished) = ^(BOOL finished){
+            if (self.completionBlock) {
+                self.completionBlock(self, isShow);
+            }
+        };
+        //    NSLog(@"diffY=%f",diffY);
+        if (diffY > 0) {
+            if (!isShow) {
+                [UIView animateWithDuration:duration animations:^{
+                    self.relatedShiftView.transform = self.relatedShiftViewBeforeShowTransform;
+                } completion:animateCompletionBlock];
+                return YES;
+            }
+            if (!self.keyboardShiftToMinTop) {
+                return YES;
+            }
+        }
+        
+        CGFloat oldTranslationX = self.relatedShiftView.transform.tx;
+        CGFloat oldTranslationY = self.relatedShiftView.transform.ty;
+        CGFloat ty = oldTranslationY + diffY;
+        //    NSLog(@"ty=%f",ty);
+        
+        [UIView animateWithDuration:duration animations:^{
+            self.relatedShiftView.transform = CGAffineTransformMakeTranslation(oldTranslationX, ty);
+        } completion:animateCompletionBlock];
+        return YES;        
+    }
 }
 
 #pragma mark firstResponder
 -(void)_didBecomeFirstResponder:(NSNotification*)notification
 {
 //    NSLog(@"%s,notification=%@",__FUNCTION__,notification);
+    if (self.becomeFirstResponderBlock) {
+        self.becomeFirstResponderBlock(self, notification);
+    }
+    
     if (self.isSpecialFirstResponderView && self.firstResponderView != nil) {
         goto _DID_BECOME_FIRST_RESPONDER_END;
     }
@@ -207,6 +183,9 @@ _DID_BECOME_FIRST_RESPONDER_END:
 -(void)_didResignFirstResponder:(NSNotification*)notification
 {
 //    NSLog(@"%s,notification=%@",__FUNCTION__,notification);
+    if (self.resignFirstResponderBlock) {
+        self.resignFirstResponderBlock(self, notification);
+    }
 }
 
 #pragma mark statusBarFrame
@@ -230,25 +209,26 @@ _DID_BECOME_FIRST_RESPONDER_END:
     [notification.userInfo[UIKeyboardFrameEndUserInfoKey] getValue:&keyboardFrame];
     
     if (show) {
-        if (!notification.keyboarHaveShow) {
+        if (!self.isKeyboardShowing) {
             self.relatedShiftViewBeforeShowTransform = self.relatedShiftView.transform;
         }
         
         self.keyboardNotification = notification;
         
-        BOOL OK = [self _doUpdateWithKeyboardFrame:keyboardFrame duration:time isHide:NO];
+        BOOL OK = [self _doUpdateWithKeyboardFrame:keyboardFrame duration:time isShow:YES];
         
         if (OK) {
-            self.keyboardNotification.keyboarHaveShow = YES;
+            self.isKeyboardShowing = YES;
 //            self.keyboardNotification = nil;
         }
     }
     else {
         self.keyboardNotification = notification;
         
-        BOOL OK = [self _doUpdateWithKeyboardFrame:keyboardFrame duration:time isHide:YES];
+        BOOL OK = [self _doUpdateWithKeyboardFrame:keyboardFrame duration:time isShow:NO];
         
         if (OK) {
+            self.isKeyboardShowing = NO;
             self.keyboardNotification = nil;
             self.relatedShiftViewBeforeShowTransform = CGAffineTransformIdentity;
             

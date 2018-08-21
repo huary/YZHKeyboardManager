@@ -10,11 +10,21 @@
 
 
 @class YZHKeyboardManager;
+//成为第一响应者时的block
+typedef void(^YZHKeyboardBecomeFirstResponderBlock)(YZHKeyboardManager *keyboardManager, NSNotification *notification);
+//辞去第一响应者时的block
+typedef void(^YZHKeyboardResignFirstResponderBlock)(YZHKeyboardManager *keyboardManager, NSNotification *notification);
+//keyboard的notification
 typedef void(^YZHKeyboardWillShowBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
 typedef void(^YZHKeyboardWillHideBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
 typedef void(^YZHKeyboardWillUpdateBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification, BOOL isShow);
-typedef void(^YZHKeyboardDidHideBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
 typedef void(^YZHKeyboardDidShowBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
+typedef void(^YZHKeyboardDidHideBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
+//进行偏移的block
+typedef void(^YZHKeyboardShiftBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification, CGFloat currentShift, BOOL isShow);
+//完成动画后的block
+typedef void(^YZHKeyboardCompletionBlock)(YZHKeyboardManager *keyboardManager, BOOL isShow);
+
 
 
 
@@ -26,12 +36,26 @@ typedef void(^YZHKeyboardDidShowBlock)(YZHKeyboardManager *keyboardManager, NSNo
 @property (nonatomic, weak) UIView *firstResponderView;
 //指的是keyboard和firstResponder的最小距离,默认为0;
 @property (nonatomic, assign) CGFloat keyboardMinTopToResponder;
+/*
+ *指的是keyboard和firstResponder是否始终保持着keyboardMinTopToResponder，
+ *默认为NO，此时他们的距离则保持着距离至少是keyboardMinTopToResponder，
+ *为YES，则他们的距离始终保持着keyboardMinTopToResponder
+ *
+ */
+@property (nonatomic, assign) BOOL keyboardShiftToMinTop;
+
+@property (nonatomic, copy) YZHKeyboardBecomeFirstResponderBlock becomeFirstResponderBlock;
+@property (nonatomic, copy) YZHKeyboardResignFirstResponderBlock resignFirstResponderBlock;
 
 @property (nonatomic, copy) YZHKeyboardWillShowBlock willShowBlock;
 @property (nonatomic, copy) YZHKeyboardWillHideBlock willHideBlock;
 @property (nonatomic, copy) YZHKeyboardWillUpdateBlock willUpdateBlock;
 @property (nonatomic, copy) YZHKeyboardDidShowBlock didShowBlock;
 @property (nonatomic, copy) YZHKeyboardDidHideBlock didHideBlock;
+
+@property (nonatomic, copy) YZHKeyboardShiftBlock shiftBlock;
+
+@property (nonatomic, copy) YZHKeyboardCompletionBlock completionBlock;
 
 @end
 
