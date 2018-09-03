@@ -8,9 +8,10 @@
 
 #import "ViewController.h"
 #import "YZHKeyboardManager.h"
-#import "TableViewCell.h"
+#import "InputViewController.h"
+#import "KeyboardTestViewController.h"
 
-@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface ViewController ()
 
 /* <#注释#> */
 @property (nonatomic, strong) UITextField *textField;
@@ -18,11 +19,8 @@
 /* <#注释#> */
 @property (nonatomic, strong) UITextView *textView;
 
-/* <#注释#> */
 @property (nonatomic, strong) YZHKeyboardManager *keyboardManager;
 
-/* <#注释#> */
-@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -33,7 +31,7 @@
     
 //    [self _test1];
     
-    [self _test2];
+    [self _setupChildView];
 }
 
 -(void)_test1
@@ -65,72 +63,43 @@
     self.keyboardManager.firstResponderView = contentView;
     self.keyboardManager.relatedShiftView = contentView;
     self.keyboardManager.keyboardMinTopToResponder = 0;
-    self.keyboardManager.keyboardShiftToMinTop = YES;
+    self.keyboardManager.firstResponderShiftToKeyboardMinTop = YES;
 }
 
--(void)_test2
+-(UIButton*)_createButtonWithTitle:(NSString*)title frame:(CGRect)frame tag:(NSInteger)tag
 {
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-//    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH,500) style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.backgroundColor = RED_COLOR;
-    [self.tableView registerClass:[TableViewCell class] forCellReuseIdentifier:NSSTRING_FROM_CLASS(TableViewCell)];
-    [self.view addSubview:self.tableView];
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = frame;
+    button.tag = tag;
+    button.backgroundColor = PURPLE_COLOR;
+    [button setTitle:title forState:UIControlStateNormal];
+    [self.view addSubview:button];
+    [button addTarget:self action:@selector(_action:) forControlEvents:UIControlEventTouchUpInside];
+    return button;
+}
+
+-(void)_action:(UIButton*)sender
+{
+    UIViewController *test = nil;
+    if (sender.tag == 1) {
+       test  = [[KeyboardTestViewController alloc] init];
+    }
+    else {
+        test = [[InputViewController alloc] init];
+    }
+    [self presentViewController:test animated:YES completion:nil];
+}
+
+-(void)_setupChildView
+{
+    CGFloat w = 500;
+    CGFloat h = 80;
+    CGFloat x = (SCREEN_WIDTH - w)/2;
+    CGFloat y = 100;
+    [self _createButtonWithTitle:@"keyboardTest" frame:CGRectMake(x, y, w, h) tag:1];
     
-    self.keyboardManager = [[YZHKeyboardManager alloc] init];
-    self.keyboardManager.keyboardMinTopToResponder = 0;
-    self.keyboardManager.keyboardShiftToMinTop = YES;
-    WEAK_SELF(weakSelf);
-    self.keyboardManager.becomeFirstResponderBlock = ^(YZHKeyboardManager *keyboardManager, NSNotification *notification) {
-        UIView *firstResponderView = notification.object;
-        keyboardManager.firstResponderView = firstResponderView.cell;
-    };
-    self.keyboardManager.resignFirstResponderBlock = ^(YZHKeyboardManager *keyboardManager, NSNotification *notification) {
-
-    };
-
-    self.keyboardManager.shiftBlock = ^(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification, CGFloat currentShift, BOOL isShow) {
-        CGPoint contentOffset = weakSelf.tableView.contentOffset;
-        CGFloat offsetY = contentOffset.y - currentShift;
-        offsetY = MAX(offsetY, 0);
-        CGFloat maxOffsetY = weakSelf.tableView.contentSize.height - weakSelf.tableView.bounds.size.height;
-        if (isShow) {
-            [weakSelf.tableView setContentOffset:CGPointMake(contentOffset.x, offsetY)];
-        }
-        else {
-            if (contentOffset.y > maxOffsetY) {
-                [weakSelf.tableView setContentOffset:CGPointMake(contentOffset.x, maxOffsetY)];
-            }
-        }
-    };
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return 100;
-}
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80;
-}
-
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:NSSTRING_FROM_CLASS(TableViewCell) forIndexPath:indexPath];
-    cell.textField.placeholder = NEW_STRING_WITH_FORMAT(@"%ld",indexPath.row + 1);
-    return cell;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self.view endEditing:YES];
-}
-
--(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
-{
-    [self.view endEditing:YES];
+    y = 200;
+    [self _createButtonWithTitle:@"inputTest" frame:CGRectMake(x, y, w, h) tag:2];
 }
 
 - (void)didReceiveMemoryWarning {

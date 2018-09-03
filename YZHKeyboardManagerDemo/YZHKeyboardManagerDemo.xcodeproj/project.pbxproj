@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1C5683D3213AC48E00EC3033 /* YZHUITextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5683D2213AC48D00EC3033 /* YZHUITextView.m */; };
+		1C5683DE213AC6C900EC3033 /* YZHKeyboardInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5683DC213AC6C900EC3033 /* YZHKeyboardInputView.m */; };
+		1C5683E1213ACCA300EC3033 /* InputViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5683E0213ACCA300EC3033 /* InputViewController.m */; };
+		1C5683E4213ACCD400EC3033 /* KeyboardTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5683E3213ACCD400EC3033 /* KeyboardTestViewController.m */; };
+		1C5683E7213AD17E00EC3033 /* InputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C5683E6213AD17E00EC3033 /* InputView.m */; };
 		1C7C52D7212BBE21001144E7 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1C7C52D6212BBE21001144E7 /* TableViewCell.m */; };
 		1CF8E086212A7E2F00D97342 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8E085212A7E2F00D97342 /* AppDelegate.m */; };
 		1CF8E089212A7E2F00D97342 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1CF8E088212A7E2F00D97342 /* ViewController.m */; };
@@ -18,6 +23,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1C5683D1213AC48D00EC3033 /* YZHUITextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHUITextView.h; sourceTree = "<group>"; };
+		1C5683D2213AC48D00EC3033 /* YZHUITextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZHUITextView.m; sourceTree = "<group>"; };
+		1C5683DB213AC6C900EC3033 /* YZHKeyboardInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YZHKeyboardInputView.h; sourceTree = "<group>"; };
+		1C5683DC213AC6C900EC3033 /* YZHKeyboardInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YZHKeyboardInputView.m; sourceTree = "<group>"; };
+		1C5683DF213ACCA300EC3033 /* InputViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputViewController.h; sourceTree = "<group>"; };
+		1C5683E0213ACCA300EC3033 /* InputViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InputViewController.m; sourceTree = "<group>"; };
+		1C5683E2213ACCD400EC3033 /* KeyboardTestViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeyboardTestViewController.h; sourceTree = "<group>"; };
+		1C5683E3213ACCD400EC3033 /* KeyboardTestViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeyboardTestViewController.m; sourceTree = "<group>"; };
+		1C5683E5213AD17E00EC3033 /* InputView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InputView.h; sourceTree = "<group>"; };
+		1C5683E6213AD17E00EC3033 /* InputView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InputView.m; sourceTree = "<group>"; };
 		1C7C52D5212BBE21001144E7 /* TableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
 		1C7C52D6212BBE21001144E7 /* TableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		1CF8E081212A7E2F00D97342 /* YZHKeyboardManagerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YZHKeyboardManagerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -47,6 +62,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1C5683CC213AC37A00EC3033 /* YZHKeyboardInputView */ = {
+			isa = PBXGroup;
+			children = (
+				1C5683DD213AC6C900EC3033 /* Model */,
+				1C5683DA213AC6C900EC3033 /* UIView */,
+			);
+			path = YZHKeyboardInputView;
+			sourceTree = "<group>";
+		};
+		1C5683D0213AC48D00EC3033 /* YZHUITextView */ = {
+			isa = PBXGroup;
+			children = (
+				1C5683D1213AC48D00EC3033 /* YZHUITextView.h */,
+				1C5683D2213AC48D00EC3033 /* YZHUITextView.m */,
+			);
+			path = YZHUITextView;
+			sourceTree = "<group>";
+		};
+		1C5683DA213AC6C900EC3033 /* UIView */ = {
+			isa = PBXGroup;
+			children = (
+				1C5683DB213AC6C900EC3033 /* YZHKeyboardInputView.h */,
+				1C5683DC213AC6C900EC3033 /* YZHKeyboardInputView.m */,
+			);
+			path = UIView;
+			sourceTree = "<group>";
+		};
+		1C5683DD213AC6C900EC3033 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		1CF8E078212A7E2E00D97342 = {
 			isa = PBXGroup;
 			children = (
@@ -66,6 +115,8 @@
 		1CF8E083212A7E2F00D97342 /* YZHKeyboardManagerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				1C5683D0213AC48D00EC3033 /* YZHUITextView */,
+				1C5683CC213AC37A00EC3033 /* YZHKeyboardInputView */,
 				1CF8E09C212A7F2A00D97342 /* YZHKeyboardManager */,
 				1CF8E09A212A7E7700D97342 /* Macro.h */,
 				1CF8E09B212A7E7700D97342 /* PrefixHeader.pch */,
@@ -80,6 +131,12 @@
 				1CF8E093212A7E2F00D97342 /* main.m */,
 				1C7C52D5212BBE21001144E7 /* TableViewCell.h */,
 				1C7C52D6212BBE21001144E7 /* TableViewCell.m */,
+				1C5683DF213ACCA300EC3033 /* InputViewController.h */,
+				1C5683E0213ACCA300EC3033 /* InputViewController.m */,
+				1C5683E2213ACCD400EC3033 /* KeyboardTestViewController.h */,
+				1C5683E3213ACCD400EC3033 /* KeyboardTestViewController.m */,
+				1C5683E5213AD17E00EC3033 /* InputView.h */,
+				1C5683E6213AD17E00EC3033 /* InputView.m */,
 			);
 			path = YZHKeyboardManagerDemo;
 			sourceTree = "<group>";
@@ -165,10 +222,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				1CF8E089212A7E2F00D97342 /* ViewController.m in Sources */,
+				1C5683D3213AC48E00EC3033 /* YZHUITextView.m in Sources */,
+				1C5683DE213AC6C900EC3033 /* YZHKeyboardInputView.m in Sources */,
 				1CF8E094212A7E2F00D97342 /* main.m in Sources */,
 				1CF8E09F212A7F4500D97342 /* YZHKeyboardManager.m in Sources */,
 				1C7C52D7212BBE21001144E7 /* TableViewCell.m in Sources */,
+				1C5683E4213ACCD400EC3033 /* KeyboardTestViewController.m in Sources */,
+				1C5683E7213AD17E00EC3033 /* InputView.m in Sources */,
 				1CF8E086212A7E2F00D97342 /* AppDelegate.m in Sources */,
+				1C5683E1213ACCA300EC3033 /* InputViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

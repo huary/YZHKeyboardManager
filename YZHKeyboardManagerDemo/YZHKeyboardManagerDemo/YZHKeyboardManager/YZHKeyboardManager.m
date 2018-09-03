@@ -42,6 +42,7 @@
 -(void)setUpDefault
 {
     self.isSpecialFirstResponderView = NO;
+    self.relatedShiftViewUseContentOffsetToShift = YES;
     [self _registerAllNotification:YES];
 }
 
@@ -117,16 +118,18 @@
     if (self.firstResponderView == nil) {
         return NO;
     }
-    if (self.willUpdateBlock) {
-        self.willUpdateBlock(self, self.keyboardNotification, isShow);
-    }
     
     CGRect firstResponderViewFrame = self.firstResponderView.frame;
     firstResponderViewFrame = [self.firstResponderView.superview convertRect:firstResponderViewFrame toView:[UIApplication sharedApplication].keyWindow];
     
+    CGFloat diffY = keyboardFrame.origin.y - CGRectGetMaxY(firstResponderViewFrame) - self.keyboardMinTopToResponder;
+    
+    if (self.willUpdateBlock) {
+        self.willUpdateBlock(self, self.keyboardNotification, diffY, isShow);
+    }
+    
 //    NSLog(@"firstResponderViewFrame=%@",NSStringFromCGRect(firstResponderViewFrame));
     
-    CGFloat diffY = keyboardFrame.origin.y - CGRectGetMaxY(firstResponderViewFrame) - self.keyboardMinTopToResponder;
     if (self.shiftBlock) {
         self.shiftBlock(self, self.keyboardNotification, diffY, isShow);
         return YES;
@@ -137,27 +140,45 @@
                 self.completionBlock(self, isShow);
             }
         };
-        //    NSLog(@"diffY=%f",diffY);
-        if (diffY > 0) {
-            if (!isShow) {
-                [UIView animateWithDuration:duration animations:^{
-                    self.relatedShiftView.transform = self.relatedShiftViewBeforeShowTransform;
-                } completion:animateCompletionBlock];
-                return YES;
+        if ([self.relatedShiftView isKindOfClass:[UIScrollView class]] && self.relatedShiftViewUseContentOffsetToShift) {
+            UIScrollView *scrollView = (UIScrollView*)self.relatedShiftView;
+            CGPoint contentOffset = scrollView.contentOffset;
+            CGFloat offsetY = contentOffset.y - diffY;
+            offsetY = MAX(offsetY, 0);
+            CGFloat maxOffsetY = scrollView.contentSize.height - scrollView.bounds.size.height;
+            if (isShow) {
+                [scrollView setContentOffset:CGPointMake(contentOffset.x, offsetY)];
             }
-            if (!self.keyboardShiftToMinTop) {
-                return YES;
+            else {
+                if (contentOffset.y > maxOffsetY) {
+                    [scrollView setContentOffset:CGPointMake(contentOffset.x, maxOffsetY)];
+                }
             }
+            animateCompletionBlock(YES);
         }
-        
-        CGFloat oldTranslationX = self.relatedShiftView.transform.tx;
-        CGFloat oldTranslationY = self.relatedShiftView.transform.ty;
-        CGFloat ty = oldTranslationY + diffY;
-        //    NSLog(@"ty=%f",ty);
-        
-        [UIView animateWithDuration:duration animations:^{
-            self.relatedShiftView.transform = CGAffineTransformMakeTranslation(oldTranslationX, ty);
-        } completion:animateCompletionBlock];
+        else {
+//            NSLog(@"diffY=%f",diffY);
+            if (diffY > 0) {
+                if (!isShow) {
+                    [UIView animateWithDuration:duration animations:^{
+                        self.relatedShiftView.transform = self.relatedShiftViewBeforeShowTransform;
+                    } completion:animateCompletionBlock];
+                    return YES;
+                }
+                if (!self.firstResponderShiftToKeyboardMinTop) {
+                    return YES;
+                }
+            }
+            
+            CGFloat oldTranslationX = self.relatedShiftView.transform.tx;
+            CGFloat oldTranslationY = self.relatedShiftView.transform.ty;
+            CGFloat ty = oldTranslationY + diffY;
+//            NSLog(@"ty=%f",ty);
+            
+            [UIView animateWithDuration:duration animations:^{
+                self.relatedShiftView.transform = CGAffineTransformMakeTranslation(oldTranslationX, ty);
+            } completion:animateCompletionBlock];
+        }
         return YES;        
     }
 }

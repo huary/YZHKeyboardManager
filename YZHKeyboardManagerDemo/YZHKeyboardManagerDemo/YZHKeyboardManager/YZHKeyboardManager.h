@@ -17,7 +17,7 @@ typedef void(^YZHKeyboardResignFirstResponderBlock)(YZHKeyboardManager *keyboard
 //keyboard的notification
 typedef void(^YZHKeyboardWillShowBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
 typedef void(^YZHKeyboardWillHideBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
-typedef void(^YZHKeyboardWillUpdateBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification, BOOL isShow);
+typedef void(^YZHKeyboardWillUpdateBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification, CGFloat currentShift, BOOL isShow);
 typedef void(^YZHKeyboardDidShowBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
 typedef void(^YZHKeyboardDidHideBlock)(YZHKeyboardManager *keyboardManager, NSNotification *keyboardNotification);
 //进行偏移的block
@@ -42,7 +42,14 @@ typedef void(^YZHKeyboardCompletionBlock)(YZHKeyboardManager *keyboardManager, B
  *为YES，则他们的距离始终保持着keyboardMinTopToResponder
  *
  */
-@property (nonatomic, assign) BOOL keyboardShiftToMinTop;
+@property (nonatomic, assign) BOOL firstResponderShiftToKeyboardMinTop;
+
+/*
+ *如果relatedShiftView是scrollView的话，是否使用contentOffset进行偏移
+ *在进行hide后，scroll的contentOffset没有还原到开始时的
+ *默认为YES
+ */
+@property (nonatomic, assign) BOOL relatedShiftViewUseContentOffsetToShift;
 
 @property (nonatomic, copy) YZHKeyboardBecomeFirstResponderBlock becomeFirstResponderBlock;
 @property (nonatomic, copy) YZHKeyboardResignFirstResponderBlock resignFirstResponderBlock;
