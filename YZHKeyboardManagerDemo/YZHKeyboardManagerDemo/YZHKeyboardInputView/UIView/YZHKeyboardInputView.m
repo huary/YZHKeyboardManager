@@ -10,7 +10,8 @@
 
 @interface YZHKeyboardInputView ()
 
-@property (nonatomic, strong) YZHKeyboardManager *keyboardManager;
+/* <#注释#> */
+@property (nonatomic, strong) UIView *inView;
 
 /* <#name#> */
 @property (nonatomic, assign) BOOL isInputViewInFirstResponder;
@@ -21,11 +22,11 @@
 
 @implementation YZHKeyboardInputView
 
--(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView
+-(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView inView:(UIView*)inView
 {
     self = [super init];
     if (self) {
-        [self _setInputViewWithView:inputView];
+        [self _setInputViewWithView:inputView inView:inView];
         [self _setupDefaultValue];
     }
     return self;
@@ -39,7 +40,7 @@
     self.firstResponderShiftToInputViewMinTop = YES;
     self.relatedShiftViewUseContentOffsetToShift = YES;
     
-    self.keyboardManager = [[YZHKeyboardManager alloc] init];
+    _keyboardManager = [[YZHKeyboardManager alloc] init];
     self.keyboardManager.firstResponderView = self.inputView.firstResponderView;
     self.keyboardManager.relatedShiftView = self.inputView;
     WEAK_SELF(weakSelf);
@@ -54,18 +55,23 @@
     };
 }
 
--(void)_setInputViewWithView:(UIView<YZHKeyboardInputViewProtocol> *)inputView
+-(void)_setInputViewWithView:(UIView<YZHKeyboardInputViewProtocol> *)inputView inView:(UIView*)inView
 {
-    [_inputView removeFromSuperview];
-    _inputView = inputView;
-    [self _addInputViewToKeyWindow];
+    if (_inputView != inputView) {
+        [_inputView removeFromSuperview];
+        _inputView = inputView;
+        [self _addInputViewToKeyWindow:(UIView*)inView];
+    }
 }
 
 
--(void)_addInputViewToKeyWindow
+-(void)_addInputViewToKeyWindow:(UIView*)inView
 {
-    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
-    [keyWindow addSubview:self.inputView];
+    if (inView == nil) {
+        inView = [UIApplication sharedApplication].keyWindow;
+    }
+    self.inView = inView;
+    [inView addSubview:self.inputView];
 }
 
 -(void)_doWillShowOrHideAction:(NSNotification*)notification show:(BOOL)show
@@ -82,18 +88,30 @@
 
 -(BOOL)_doUpdateRelateViewShift:(NSNotification*)keyboardNotification shift:(CGFloat)currentShift isShow:(BOOL)isShow
 {
-    if (self.firstResponderView == nil) {
+    BOOL isScrollViewContentOffset = ([self.relatedShiftView isKindOfClass:[UIScrollView class]] && self.relatedShiftViewUseContentOffsetToShift);
+    if (self.firstResponderView == nil && isScrollViewContentOffset == NO) {
         return NO;
     }
     
     self.isInputViewInFirstResponder = isShow;
     
-    CGRect firstResponderViewFrame = [self.firstResponderView.superview convertRect:self.firstResponderView.frame toView:[UIApplication sharedApplication].keyWindow];
+    CGFloat firstResponderViewMaxY = 0;
+    if (self.firstResponderView) {
+        CGRect rect = [self.firstResponderView.superview convertRect:self.firstResponderView.frame toView:[UIApplication sharedApplication].keyWindow];
+        firstResponderViewMaxY = CGRectGetMaxY(rect);
+    }
+    else {
+        //这里firstResponderView为nil，则relatedShiftView必须是scrollView
+        UIScrollView *scrollView = (UIScrollView*)self.relatedShiftView;
+        CGPoint contentSizePoint = CGPointMake(0, scrollView.contentSize.height - scrollView.contentOffset.y);
+        contentSizePoint = [scrollView.superview convertPoint:contentSizePoint toView:[UIApplication sharedApplication].keyWindow];
+        firstResponderViewMaxY = contentSizePoint.y;
+    }
     
     CGRect keyboardFirstResponderViewFrame = [self.keyboardManager.firstResponderView.superview convertRect:self.keyboardManager.firstResponderView.frame toView:[UIApplication sharedApplication].keyWindow];
     
     CGFloat inputY = keyboardFirstResponderViewFrame.origin.y + currentShift;
-    CGFloat diffY = inputY - CGRectGetMaxY(firstResponderViewFrame) - self.inputViewMinTopToResponder;
+    CGFloat diffY = inputY - firstResponderViewMaxY - self.inputViewMinTopToResponder;
     
     if (self.willUpdateBlock) {
         self.willUpdateBlock(self, keyboardNotification, diffY, isShow);
@@ -110,15 +128,23 @@
             UIScrollView *scrollView = (UIScrollView*)self.relatedShiftView;
             CGPoint contentOffset = scrollView.contentOffset;
             CGFloat offsetY = contentOffset.y - diffY;
-            offsetY = MAX(offsetY, 0);
             CGFloat maxOffsetY = scrollView.contentSize.height - scrollView.bounds.size.height;
+            if (!self.firstResponderShiftToInputViewMinTop) {
+                offsetY = MAX(offsetY, 0);
+            }
+            maxOffsetY = MAX(maxOffsetY, 0);
             if (isShow) {
-                [scrollView setContentOffset:CGPointMake(contentOffset.x, offsetY) animated:YES];
+                [scrollView setContentOffset:CGPointMake(contentOffset.x, offsetY) animated:NO];
             }
             else {
                 if (contentOffset.y > maxOffsetY) {
-                    [scrollView setContentOffset:CGPointMake(contentOffset.x, maxOffsetY) animated:YES];
+                    [scrollView setContentOffset:CGPointMake(contentOffset.x, maxOffsetY) animated:NO];
                 }
+                else if (contentOffset.y <= 0) {
+                    [scrollView setContentOffset:CGPointMake(contentOffset.x, 0) animated:NO];
+
+                }
+                    
             }
             animateCompletionBlock(YES);
         }
@@ -164,7 +190,7 @@
 
 -(void)updateKeyboardInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView
 {
-    [self _setInputViewWithView:inputView];
+    [self _setInputViewWithView:inputView inView:self.inView];
     [self _doUpdateRelateViewShift:nil shift:0 isShow:self.isInputViewInFirstResponder];
 }
 @end

@@ -42,11 +42,19 @@ typedef void(^YZHKeyboardInputViewCompletionBlock)(YZHKeyboardInputView *inputVi
 
 @interface YZHKeyboardInputView : NSObject
 
+@property (nonatomic, strong, readonly) YZHKeyboardManager *keyboardManager;
+
+
 @property (nonatomic, strong, readonly) UIView<YZHKeyboardInputViewProtocol>*inputView;
 
 //需要移动的view
 @property (nonatomic, weak) UIView *relatedShiftView;
-//这里的firstResponderView指的是inputView需要靠近的那个view
+/*
+ *这里的firstResponderView指的是inputView需要靠近的那个view
+ *这里的firstResponderView需要开发者来指定
+ *如果relatedShiftView是scrollView，而firstResponderView此时可以不用指定，
+ *此时已scrollView的(0,contentSize.height-contentOffset.y)这个点作为需要靠近的点
+ */
 @property (nonatomic, weak) UIView *firstResponderView;
 //指的是inputView和firstResponder的最小距离,默认为0;
 @property (nonatomic, assign) CGFloat inputViewMinTopToResponder;
@@ -75,7 +83,7 @@ typedef void(^YZHKeyboardInputViewCompletionBlock)(YZHKeyboardInputView *inputVi
 @property (nonatomic, copy) YZHKeyboardCompletionBlock completionBlock;
 
 
--(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView;
+-(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView inView:(UIView*)inView;
 
 -(void)becomeFirstResponder;
 
