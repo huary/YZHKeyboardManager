@@ -22,6 +22,11 @@
 
 @implementation YZHKeyboardInputView
 
+-(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView
+{
+    return [self initWithInputView:inputView inView:nil];
+}
+
 -(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView inView:(UIView*)inView
 {
     self = [super init];

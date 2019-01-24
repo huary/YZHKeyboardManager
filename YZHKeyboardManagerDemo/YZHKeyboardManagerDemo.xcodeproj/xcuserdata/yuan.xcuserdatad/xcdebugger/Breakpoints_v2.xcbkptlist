@@ -35,5 +35,69 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
+            timestampString = "570028565.8921371"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "125"
+            endingLineNumber = "125"
+            landmarkName = "-_doUpdateWithKeyboardFrame:duration:isShow:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
+            timestampString = "570028589.737847"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
+            landmarkName = "-_doUpdateWithKeyboardFrame:duration:isShow:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHKeyboardManager _doUpdateWithKeyboardFrame:duration:isShow:]"
+                  moduleName = "YZHKeyboardManagerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHKeyboardManager/YZHKeyboardManagerDemo/YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
+                  timestampString = "570028589.743225"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "1645">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[YZHKeyboardManager _doUpdateWithKeyboardFrame:duration:isShow:]"
+                  moduleName = "YZHKeyboardManagerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/yuan/Documents/yzh/github/YZHKeyboardManager/YZHKeyboardManagerDemo/YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
+                  timestampString = "570028589.745536"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "147"
+                  endingLineNumber = "147"
+                  offsetFromSymbolStart = "1758">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

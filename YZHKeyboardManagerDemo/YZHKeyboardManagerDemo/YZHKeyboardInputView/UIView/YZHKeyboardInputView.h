@@ -18,6 +18,10 @@ typedef void(^YZHKeyboardInputViewShiftBlock)(YZHKeyboardInputView *inputView, N
 //完成动画后的block
 typedef void(^YZHKeyboardInputViewCompletionBlock)(YZHKeyboardInputView *inputView, BOOL isShow);
 
+
+/****************************************************
+ *YZHKeyboardInputViewProtocol
+ ****************************************************/
 @protocol YZHKeyboardInputViewProtocol <NSObject>
 
 /* <#注释#> */
@@ -40,6 +44,9 @@ typedef void(^YZHKeyboardInputViewCompletionBlock)(YZHKeyboardInputView *inputVi
 @end
 
 
+/****************************************************
+ *YZHKeyboardInputView
+ ****************************************************/
 @interface YZHKeyboardInputView : NSObject
 
 @property (nonatomic, strong, readonly) YZHKeyboardManager *keyboardManager;
@@ -82,6 +89,7 @@ typedef void(^YZHKeyboardInputViewCompletionBlock)(YZHKeyboardInputView *inputVi
 /* <#注释#> */
 @property (nonatomic, copy) YZHKeyboardCompletionBlock completionBlock;
 
+-(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView;
 
 -(instancetype)initWithInputView:(UIView<YZHKeyboardInputViewProtocol>*)inputView inView:(UIView*)inView;
 
