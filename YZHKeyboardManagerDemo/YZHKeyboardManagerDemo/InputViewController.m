@@ -34,11 +34,16 @@
     self.view.backgroundColor = WHITE_COLOR;
     
     CGFloat x = 0;
-    CGFloat h = 150;
-    CGFloat y = SCREEN_HEIGHT;
+    CGFloat h = 300;
+    CGFloat y = SCREEN_HEIGHT - 60 - SAFE_BOTTOM;
     CGFloat w = SCREEN_WIDTH;
     
+    WEAK_SELF(weakSelf);
     InputView *inputView = [[InputView alloc] initWithFrame:CGRectMake(x, y, w, h)];
+    
+    inputView.changeFrameBlock = ^(InputView *inputView, CGRect frame) {
+        [weakSelf _changeInputViewFrame:inputView];
+    };
     self.keyboardInputView = [[YZHKeyboardInputView alloc] initWithInputView:inputView];
     [self.view addSubview:inputView];
     
@@ -70,6 +75,11 @@
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
     [self.keyboardInputView resignFirstResponder];
+}
+
+-(void)_changeInputViewFrame:(InputView*)inputView
+{
+    [self.keyboardInputView updateKeyboardInputView:inputView];
 }
 
 

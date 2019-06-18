@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
-            timestampString = "557517195.979192"
+            timestampString = "573141933.851472"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "145"
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
-            timestampString = "557517195.9796211"
+            timestampString = "573141933.852071"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
@@ -38,11 +38,11 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
-            timestampString = "570028565.8921371"
+            timestampString = "573141933.852479"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "125"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
-            timestampString = "570028589.737847"
+            timestampString = "573141933.852911"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "147"
@@ -74,12 +74,12 @@
                   moduleName = "YZHKeyboardManagerDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yuan/Documents/yzh/github/YZHKeyboardManager/YZHKeyboardManagerDemo/YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
-                  timestampString = "570028589.743225"
+                  timestampString = "573019021.567037"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "147"
                   endingLineNumber = "147"
-                  offsetFromSymbolStart = "1645">
+                  offsetFromSymbolStart = "1256">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -89,14 +89,46 @@
                   moduleName = "YZHKeyboardManagerDemo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/yuan/Documents/yzh/github/YZHKeyboardManager/YZHKeyboardManagerDemo/YZHKeyboardManagerDemo/YZHKeyboardManager/YZHKeyboardManager.m"
-                  timestampString = "570028589.745536"
+                  timestampString = "573019021.569326"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "147"
                   endingLineNumber = "147"
-                  offsetFromSymbolStart = "1758">
+                  offsetFromSymbolStart = "1324">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHKeyboardManagerDemo/InputView.m"
+            timestampString = "573030335.708401"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "-_changeFrameAction:frame:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YZHKeyboardManagerDemo/InputView.m"
+            timestampString = "573030335.708549"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "-_changeFrameAction:frame:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

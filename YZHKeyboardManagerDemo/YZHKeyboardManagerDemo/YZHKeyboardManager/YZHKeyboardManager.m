@@ -157,7 +157,7 @@
             animateCompletionBlock(YES);
         }
         else {
-//            NSLog(@"diffY=%f",diffY);
+            NSLog(@"diffY=%f",diffY);
             if (diffY > 0) {
                 if (!isShow) {
                     [UIView animateWithDuration:duration animations:^{
